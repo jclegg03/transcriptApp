@@ -127,7 +127,7 @@ export class RoomRegistry extends EventEmitter {
     this.evictionTimers.set(roomId, evictionTimer);
   }
 
-  addListener(roomId: string, socket: WebSocket): ListenerConnection | undefined {
+  addListenerConnection(roomId: string, socket: WebSocket): ListenerConnection | undefined {
     const room = this.rooms.get(roomId);
     if (!room) return undefined;
 
@@ -137,7 +137,7 @@ export class RoomRegistry extends EventEmitter {
     return listener;
   }
 
-  removeListener(roomId: string, listenerId: string): void {
+  removeListenerConnection(roomId: string, listenerId: string): void {
     const room = this.rooms.get(roomId);
     if (!room) return;
     if (room.listeners.delete(listenerId)) {

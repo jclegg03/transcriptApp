@@ -22,16 +22,12 @@ export function handleListenerConnection(ws: WebSocket, roomId: string, registry
     return;
   }
 
-  const listener = registry.addListener(roomId, ws);
-  if (!listener) {
-    ws.close(4004, "room-not-found");
-    return;
-  }
-
+  // Sent before adding the connection so this listener sees its own join reflected
+  // in the count, ahead of the separate listener-count broadcast addListenerConnection triggers.
   send(ws, {
     type: "room-state",
     status: room.status,
-    listenerCount: room.listeners.size,
+    listenerCount: room.listeners.size + 1,
   });
 
   // Replay known transcript state so a late joiner isn't left blank.
@@ -54,5 +50,11 @@ export function handleListenerConnection(ws: WebSocket, roomId: string, registry
     });
   }
 
-  ws.on("close", () => registry.removeListener(roomId, listener.id));
+  const listener = registry.addListenerConnection(roomId, ws);
+  if (!listener) {
+    ws.close(4004, "room-not-found");
+    return;
+  }
+
+  ws.on("close", () => registry.removeListenerConnection(roomId, listener.id));
 }
