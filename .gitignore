@@ -6,3 +6,4 @@
 *-key.json
 service-account*.json
 coverage/
+.DS_Store
