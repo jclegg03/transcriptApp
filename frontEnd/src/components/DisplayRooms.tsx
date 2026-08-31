@@ -7,23 +7,31 @@ interface displayRoomsProps {
 } 
 
 function DisplayRooms({ rooms } : displayRoomsProps) {
+    if (rooms.length === 0) {
+        return <p className="noRooms">No rooms. Create one to get started.</p>;
+    }
+
     return (
-        <div>
+        <div className="roomDisplayArea">
             {rooms.map((room) => (
-                <div key={room.id}>
+                <div className="roomCard" key={room.id}>
                     <h2>
                         {room.name}
                     </h2>
-                    <p>
+                    <p 
+                        className={`roomStatus ${
+                            room.isActive ? "active" : "inactive"
+                        }`}
+                    >
                         {room.isActive ? "Active" : "Inactive"}
                     </p>
-                    <p>
+                    <p className="roomPeople">
                         {room.users.length} people
                     </p>
                     <button>
                         Join Room
                     </button>
-                    <button>
+                    <button className="deleteButton">
                         Delete Room
                     </button> 
                 </div>
