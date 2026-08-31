@@ -30,7 +30,7 @@ function CreateRoomModal({ onAddRoom, onCloseAddRoom }: createRoomProps) {
                             <input type="text" placeholder="Enter name..." value={roomName} onChange={(event) => setRoomName(event.target.value)} />
                         </label>
                         <button type="submit" className="primaryButton">
-                            Add Room
+                            Add and Join Room
                         </button>
                         <button type="button" onClick={onCloseAddRoom} className="secondaryButton">
                             Cancel

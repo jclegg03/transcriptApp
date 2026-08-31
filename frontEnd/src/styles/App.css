@@ -1,53 +1,6 @@
 /* =========================
    Color & Design Variables
    ========================= */
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.4);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 10;
-}
-
-.modal {
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 24px;
-  min-width: 280px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  text-align: left;
-}
-
-.modal input {
-  font: inherit;
-  padding: 8px 10px;
-  border-radius: 4px;
-  border: 1px solid var(--border);
-  background: var(--bg);
-  color: var(--text-h);
-}
-
-.modal-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 8px;
-  margin-top: 8px;
-}
-
-.counter {
-  font-size: 16px;
-  padding: 5px 10px;
-  border-radius: 5px;
-  color: var(--accent);
-  background: var(--accent-bg);
-  border: 2px solid transparent;
-  transition: border-color 0.3s;
-  margin-bottom: 24px;
 
 :root {
   --blue: #2563eb;
@@ -67,7 +20,11 @@
 
   --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
     sans-serif;
 }
 
@@ -102,7 +59,7 @@ button {
 
 .app {
   width: 100%;
-  max-width: 1100px;
+  max-width: 1200px;
   min-height: 100vh;
   margin: 0 auto;
   padding: 2rem;
@@ -122,52 +79,52 @@ button {
 
 .roomDisplayArea {
   width: 100%;
-  max-width: 1050px;
   margin: 0 auto 2rem;
 
   display: grid;
   grid-template-columns: repeat(3, minmax(280px, 1fr));
-  gap: 2.5rem;
+  gap: 3rem;
 }
+
+
+/* =========================
+   Room Cards
+   ========================= */
 
 .roomCard {
   display: flex;
   flex-direction: column;
+
   padding: 40px 44px 28px;
-  border: 1px solid var(--border);
+
+  border: 1px solid var(--gray-border);
   border-radius: 14px;
-  background: var(--bg);
+
+  background-color: var(--white);
+
   box-shadow: var(--shadow);
 }
 
 .roomCard h2 {
-  margin: 0 0 12px;
-}
+  margin: 0;
+  min-height: 48px;
 
-.roomStatus {
-  margin: 0 0 10px;
-}
+  font-size: 1.8rem;
+  line-height: 1.15;
 
-.roomStatus.active {
-  color: var(--primary);
-}
-
-.roomStatus.inactive {
   color: var(--text);
 }
 
-.roomPeople {
-  margin-bottom: 30px;
-}
 
-/* Push the buttons down a little and create space between them */
-.roomCard button {
-  margin-top: auto;
-}
+/* =========================
+   Room Status
+   ========================= */
 
-.roomCard .deleteButton {
-  margin-top: 14px;
-} 
+.roomStatus {
+  margin: 34px 0 0;
+
+  font-size: 1.15rem;
+}
 
 .roomStatus.active {
   color: var(--blue);
@@ -177,8 +134,21 @@ button {
   color: var(--text-light);
 }
 
+
 /* =========================
-   General Room Buttons
+   Room People
+   ========================= */
+
+.roomPeople {
+  margin: 26px 0 0;
+
+  font-size: 1.15rem;
+  color: var(--text);
+}
+
+
+/* =========================
+   Room Buttons
    ========================= */
 
 .roomCard button {
@@ -187,34 +157,32 @@ button {
   padding: 0.65rem 1rem;
 
   border-radius: 6px;
-
   font-weight: 600;
-  border: 2px solid transparent;
+  cursor: pointer;
 
   transition:
     background-color 0.15s ease,
     border-color 0.15s ease;
+  margin-top: 20px;
 }
 
-
 /* Join Room */
-
 .roomCard button:not(.deleteButton) {
   background-color: var(--blue);
   color: var(--white);
+  border: 2px solid var(--blue);
 }
 
 .roomCard button:not(.deleteButton):hover {
   background-color: var(--blue-dark);
+  border-color: var(--blue-dark);
 }
 
-
 /* Delete Room */
-
 .roomCard .deleteButton {
   background-color: var(--gray-light);
   color: var(--gray-dark);
-  border-color: var(--gray-border);
+  border: 2px solid var(--gray-border);
 }
 
 .roomCard .deleteButton:hover {
@@ -222,14 +190,13 @@ button {
   border-color: var(--blue-border);
   color: var(--blue-dark);
 }
-
-
 /* =========================
    Create Room Button
    ========================= */
 
 .app > button {
   display: block;
+
   width: 100%;
   max-width: 300px;
   min-height: 48px;
@@ -240,16 +207,22 @@ button {
   background-color: var(--blue);
   color: var(--white);
 
-  border: none;
+  border: 2px solid var(--blue);
   border-radius: 6px;
 
   font-weight: 700;
   font-size: 1rem;
+
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
 }
 
 .app > button:hover {
   background-color: var(--blue-dark);
+  border-color: var(--blue-dark);
 }
+
 
 /* =========================
    Modal Overlay
@@ -258,11 +231,15 @@ button {
 .modalOverlay {
   position: fixed;
   inset: 0;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
   padding: 1rem;
+
   background-color: rgba(15, 23, 42, 0.55);
+
   z-index: 1000;
 }
 
@@ -271,32 +248,100 @@ button {
    Modal
    ========================= */
 
-.modal,
-.createRoomModal {
+.modal {
   width: 100%;
   max-width: 560px;
+
   padding: 2rem;
+
   background-color: var(--white);
+
   border: 1px solid var(--gray-border);
   border-radius: 12px;
+
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
-.modal h2,
-.createRoomModal h2 {
+
+/* =========================
+   Modal Heading
+   ========================= */
+
+.modal h2 {
   margin: 0 0 1.5rem;
+
   font-size: 1.8rem;
   color: var(--text);
 }
 
 
 /* =========================
-   Delete Room Modal
+   Create Room Form
    ========================= */
 
-.modal p {
-  margin: 0 0 1.5rem;
+.createRoomFormArea {
+  width: 100%;
+}
+
+.createRoomFormArea form {
+  display: flex;
+  flex-direction: column;
+
+  gap: 1rem;
+}
+
+.createRoomFormArea p {
+  margin: 0;
+
+  color: var(--text-light);
+  font-size: 1.05rem;
+}
+
+.createRoomFormArea label {
+  display: flex;
+  flex-direction: column;
+
+  gap: 0.5rem;
+
   color: var(--text);
+
+  font-weight: 500;
+}
+
+.createRoomFormArea input {
+  width: 100%;
+  min-height: 48px;
+
+  padding: 0.75rem 1rem;
+
+  background-color: var(--white);
+
+  color: var(--text);
+
+  border: 2px solid var(--gray-border);
+  border-radius: 6px;
+}
+
+.createRoomFormArea input:focus {
+  outline: none;
+
+  border-color: var(--blue);
+
+  box-shadow: 0 0 0 3px var(--blue-light);
+}
+
+
+/* =========================
+   Modal Paragraph
+   ========================= */
+
+.modal > p {
+  margin: 0 0 1.5rem;
+
+  color: var(--text);
+
+  font-size: 1.1rem;
+  line-height: 1.5;
 }
 
 
@@ -304,55 +349,88 @@ button {
    Modal Buttons
    ========================= */
 
-.modal button,
-.createRoomFormArea button {
+.modal button {
+  width: 100%;
   min-height: 46px;
+
   padding: 0.7rem 1.25rem;
+
   border-radius: 6px;
+
   font-weight: 700;
+
   cursor: pointer;
+
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
 }
 
 
-/* Primary button */
+/* =========================
+   Primary Modal Button
+   ========================= */
 
-.modal .primaryButton,
-.createRoomFormArea button[type="submit"] {
+.modal .primaryButton {
   background-color: var(--blue);
   color: var(--white);
+
   border: 2px solid var(--blue);
 }
 
-.modal .primaryButton:hover,
-.createRoomFormArea button[type="submit"]:hover {
+.modal .primaryButton:hover {
   background-color: var(--blue-dark);
   border-color: var(--blue-dark);
 }
 
 
-/* Secondary button */
+/* =========================
+   Secondary Modal Button
+   ========================= */
 
-.modal .secondaryButton,
-.createRoomFormArea button[type="button"] {
+.modal .secondaryButton {
   background-color: var(--gray-light);
   color: var(--text);
+
   border: 2px solid var(--gray-border);
 }
 
-.modal .secondaryButton:hover,
-.createRoomFormArea button[type="button"]:hover {
+.modal .secondaryButton:hover {
   background-color: var(--blue-light);
   border-color: var(--blue-border);
-} 
-
-.modal button {
-  width: 100%;
-  display: block;
 }
 
-.modal .primaryButton {
-  margin-bottom: 1rem;
+
+/* =========================
+   Delete Room Modal Buttons
+   ========================= */
+
+/*
+   Your DeleteRoomModal currently puts the buttons
+   directly inside .modal, so give them some spacing.
+*/
+
+.modal .primaryButton + .secondaryButton {
+  margin-top: 0.75rem;
 }
+
+
+/* =========================
+   Error Message
+   ========================= */
+
+.app [role="alert"] {
+  margin: 0 auto 1.5rem;
+
+  padding: 0.75rem 1rem;
+
+  background-color: #fef2f2;
+  color: #991b1b;
+
+  border: 1px solid #fecaca;
+  border-radius: 6px;
+}
+
 
 /* =========================
    Empty Room State
@@ -368,6 +446,7 @@ button {
   text-align: center;
 
   color: var(--text-light);
+
   background-color: var(--white);
 
   border: 1px solid var(--gray-border);
@@ -379,7 +458,14 @@ button {
    Mobile
    ========================= */
 
-@media (max-width: 800px) {
+@media (max-width: 900px) {
+  .roomDisplayArea {
+    grid-template-columns: repeat(2, minmax(280px, 1fr));
+  }
+}
+
+
+@media (max-width: 650px) {
   .app {
     padding: 1.25rem;
   }
@@ -390,12 +476,15 @@ button {
 
   .roomDisplayArea {
     grid-template-columns: 1fr;
+    gap: 1.5rem;
   }
 
   .roomCard {
-    padding: 1.25rem;
+    min-height: 420px;
+    padding: 1.5rem;
   }
 }
+
 
 @media (max-width: 500px) {
   .app {
@@ -407,17 +496,7 @@ button {
     margin-bottom: 1.5rem;
   }
 
-  .createRoomModal,
-  .deleteRoomModal {
+  .modal {
     padding: 1.5rem;
   }
-
-  .deleteRoomModal > div {
-    flex-direction: column;
-  }
-
-  .createRoomFormArea button,
-  .deleteRoomModal button {
-    width: 100%;
-  }
-}}
+}
