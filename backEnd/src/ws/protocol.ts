@@ -10,7 +10,7 @@ export type SpeakerServerMessage =
 
 // Server -> listener
 export type ListenerServerMessage =
-  | { type: "room-state"; status: "live" | "ended"; listenerCount: number }
+  | { type: "room-state"; status: "created" | "live" | "speaker-reconnecting"; listenerCount: number }
   | { type: "transcript"; segmentId: string; text: string; isFinal: boolean; updatedAt: number }
   | { type: "speaker-joined" }
   | { type: "speaker-left" }
