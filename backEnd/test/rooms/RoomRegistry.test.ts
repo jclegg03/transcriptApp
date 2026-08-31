@@ -19,7 +19,7 @@ describe("RoomRegistry", () => {
   });
 
   it("creates a room in 'created' status with a unique id and speaker token", () => {
-    const room = registry.createRoom();
+    const room = registry.createRoom("Test Room");
     expect(room.status).toBe("created");
     expect(room.id).toMatch(/^[A-Z2-9]{6}$/);
     expect(room.speakerToken).toBeTruthy();
@@ -27,7 +27,7 @@ describe("RoomRegistry", () => {
   });
 
   it("attaches a speaker with the correct token and moves the room to 'live'", () => {
-    const room = registry.createRoom();
+    const room = registry.createRoom("Test Room");
     const result = registry.attachSpeaker(room.id, room.speakerToken, fakeSocket());
     expect(result.ok).toBe(true);
     expect(room.status).toBe("live");
@@ -35,14 +35,14 @@ describe("RoomRegistry", () => {
   });
 
   it("rejects attachSpeaker with a bad token", () => {
-    const room = registry.createRoom();
+    const room = registry.createRoom("Test Room");
     const result = registry.attachSpeaker(room.id, "wrong-token", fakeSocket());
     expect(result).toEqual({ ok: false, reason: "bad-token" });
     expect(room.speaker).toBeNull();
   });
 
   it("rejects a second speaker while one is already connected", () => {
-    const room = registry.createRoom();
+    const room = registry.createRoom("Test Room");
     registry.attachSpeaker(room.id, room.speakerToken, fakeSocket());
     const second = registry.attachSpeaker(room.id, room.speakerToken, fakeSocket());
     expect(second).toEqual({ ok: false, reason: "already-connected" });
@@ -54,7 +54,7 @@ describe("RoomRegistry", () => {
   });
 
   it("allows reconnect within the grace window and keeps the room alive", () => {
-    const room = registry.createRoom();
+    const room = registry.createRoom("Test Room");
     registry.attachSpeaker(room.id, room.speakerToken, fakeSocket());
 
     registry.detachSpeaker(room.id);
@@ -70,7 +70,7 @@ describe("RoomRegistry", () => {
   });
 
   it("ends the room if the speaker does not reconnect within the grace window", () => {
-    const room = registry.createRoom();
+    const room = registry.createRoom("Test Room");
     registry.attachSpeaker(room.id, room.speakerToken, fakeSocket());
 
     registry.detachSpeaker(room.id);
@@ -80,7 +80,7 @@ describe("RoomRegistry", () => {
   });
 
   it("emits room-ended with 'speaker-timeout' when the grace window expires", () => {
-    const room = registry.createRoom();
+    const room = registry.createRoom("Test Room");
     registry.attachSpeaker(room.id, room.speakerToken, fakeSocket());
     registry.detachSpeaker(room.id);
 
@@ -92,7 +92,7 @@ describe("RoomRegistry", () => {
   });
 
   it("tracks listener add/remove and fires listener-added/listener-removed events", () => {
-    const room = registry.createRoom();
+    const room = registry.createRoom("Test Room");
     const onAdded = vi.fn();
     const onRemoved = vi.fn();
     registry.on("listener-added", onAdded);
@@ -109,7 +109,7 @@ describe("RoomRegistry", () => {
   });
 
   it("does not allow attaching a speaker to an ended room", () => {
-    const room = registry.createRoom();
+    const room = registry.createRoom("Test Room");
     registry.attachSpeaker(room.id, room.speakerToken, fakeSocket());
     registry.endRoom(room.id, "speaker-ended");
 
@@ -118,8 +118,8 @@ describe("RoomRegistry", () => {
   });
 
   it("counts only non-ended rooms as active", () => {
-    const a = registry.createRoom();
-    const b = registry.createRoom();
+    const a = registry.createRoom("Test Room");
+    const b = registry.createRoom("Test Room");
     expect(registry.activeRoomCount()).toBe(2);
 
     registry.endRoom(a.id, "speaker-ended");

@@ -34,13 +34,14 @@ export class RoomRegistry extends EventEmitter {
   private reconnectTimers = new Map<string, NodeJS.Timeout>();
   private evictionTimers = new Map<string, NodeJS.Timeout>();
 
-  createRoom(): Room {
+  createRoom(name: string): Room {
     let id = generateRoomCode();
     while (this.rooms.has(id)) {
       id = generateRoomCode();
     }
     const room: Room = {
       id,
+      name,
       speakerToken: randomBytes(24).toString("base64url"),
       status: "created",
       createdAt: Date.now(),
@@ -64,11 +65,11 @@ export class RoomRegistry extends EventEmitter {
   }
 
   listActiveRoomIds(): string[] {
-    const ids: string[] = [];
-    for (const room of this.rooms.values()) {
-      if (room.status !== "ended") ids.push(room.id);
-    }
-    return ids;
+    return this.listActiveRooms().map((room) => room.id);
+  }
+
+  listActiveRooms(): Room[] {
+    return [...this.rooms.values()].filter((room) => room.status !== "ended");
   }
 
   attachSpeaker(roomId: string, token: string, socket: WebSocket): AttachSpeakerResult {
