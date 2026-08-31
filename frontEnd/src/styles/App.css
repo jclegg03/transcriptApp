@@ -1,290 +1,376 @@
+/* =========================
+   Color & Design Variables
+   ========================= */
+
 :root {
-    --background: #f5f7fa;
-    --surface: #ffffff;
-    --text: #1f2937;
-    --secondary-text: #4b5563;
-    --border: #d1d5db;
+  --blue: #2563eb;
+  --blue-dark: #1d4ed8;
+  --blue-light: #eff6ff;
+  --blue-border: #bfdbfe;
 
-    --primary: #2563eb;
-    --primary-hover: #1d4ed8;
+  --text: #1f2937;
+  --text-light: #6b7280;
 
-    --danger: #dc2626;
-    --danger-hover: #b91c1c;
+  --background: #f8fafc;
+  --white: #ffffff;
 
-    --active: #15803d;
-    --focus: #93c5fd;
+  --gray-light: #f1f5f9;
+  --gray-border: #d1d5db;
+  --gray-dark: #4b5563;
+
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
 }
 
-/* ---------- Page ---------- */
+
+/* =========================
+   General Page
+   ========================= */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background-color: var(--background);
+  color: var(--text);
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+
+/* =========================
+   Main App
+   ========================= */
 
 .app {
-    min-height: 100vh;
-    box-sizing: border-box;
-    padding: 48px 32px;
-
-    background-color: var(--background);
-    color: var(--text);
+  width: 100%;
+  max-width: 1100px;
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 2rem;
 }
 
 .app h1 {
-    margin: 0 0 40px;
-
-    text-align: center;
-    font-size: 2.5rem;
-    font-weight: 700;
+  margin: 0 0 2rem;
+  text-align: center;
+  font-size: 2.5rem;
+  color: var(--text);
 }
 
 
-/* ---------- Create Room ---------- */
-
-.app > button {
-    display: block;
-    margin: 32px auto 0;
-
-    padding: 12px 24px;
-
-    border: none;
-    border-radius: 8px;
-
-    background-color: var(--primary);
-    color: white;
-
-    font-size: 1rem;
-    font-weight: 600;
-
-    cursor: pointer;
-}
-
-.app > button:hover {
-    background-color: var(--primary-hover);
-}
-
-.app > button:focus-visible {
-    outline: 3px solid var(--focus);
-    outline-offset: 3px;
-}
-
-
-/* ---------- Room List ---------- */
+/* =========================
+   Room Display
+   ========================= */
 
 .roomDisplayArea {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 24px;
+  width: 100%;
+  max-width: 1050px;
+  margin: 0 auto 2rem;
 
-    width: 100%;
-    max-width: 1100px;
-
-    margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(280px, 1fr));
+  gap: 2.5rem;
 }
 
-
-/* ---------- Room Card ---------- */
-
 .roomCard {
-    display: flex;
-    flex-direction: column;
-
-    padding: 24px;
-
-    background-color: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  padding: 40px 44px 28px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--bg);
+  box-shadow: var(--shadow);
 }
 
 .roomCard h2 {
-    margin: 0 0 16px;
-
-    font-size: 1.4rem;
+  margin: 0 0 12px;
 }
 
-
-/* ---------- Status ---------- */
-
 .roomStatus {
-    margin: 0 0 8px;
-    font-weight: 600;
+  margin: 0 0 10px;
 }
 
 .roomStatus.active {
-    color: var(--active);
+  color: var(--primary);
 }
 
 .roomStatus.inactive {
-    color: var(--secondary-text);
+  color: var(--text);
 }
-
-
-/* ---------- Participants ---------- */
 
 .roomPeople {
-    margin: 0 0 24px;
-
-    color: var(--secondary-text);
+  margin-bottom: 30px;
 }
 
-
-/* ---------- Room Buttons ---------- */
-
+/* Push the buttons down a little and create space between them */
 .roomCard button {
-    width: 100%;
-
-    padding: 11px 18px;
-
-    border: none;
-    border-radius: 6px;
-
-    background-color: var(--primary);
-    color: white;
-
-    font-size: 1rem;
-    font-weight: 600;
-
-    cursor: pointer;
-}
-
-.roomCard button:hover {
-    background-color: var(--primary-hover);
-}
-
-.roomCard button + button {
-    margin-top: 10px;
+  margin-top: auto;
 }
 
 .roomCard .deleteButton {
-    background-color: var(--danger);
+  margin-top: 14px;
+} 
+
+.roomStatus.active {
+  color: var(--blue);
+}
+
+.roomStatus.inactive {
+  color: var(--text-light);
+}
+
+/* =========================
+   General Room Buttons
+   ========================= */
+
+.roomCard button {
+  width: 100%;
+  min-height: 44px;
+  padding: 0.65rem 1rem;
+
+  border-radius: 6px;
+
+  font-weight: 600;
+  border: 2px solid transparent;
+
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+
+/* Join Room */
+
+.roomCard button:not(.deleteButton) {
+  background-color: var(--blue);
+  color: var(--white);
+}
+
+.roomCard button:not(.deleteButton):hover {
+  background-color: var(--blue-dark);
+}
+
+
+/* Delete Room */
+
+.roomCard .deleteButton {
+  background-color: var(--gray-light);
+  color: var(--gray-dark);
+  border-color: var(--gray-border);
 }
 
 .roomCard .deleteButton:hover {
-    background-color: var(--danger-hover);
+  background-color: var(--blue-light);
+  border-color: var(--blue-border);
+  color: var(--blue-dark);
 }
 
-.roomCard button:focus-visible {
-    outline: 3px solid var(--focus);
-    outline-offset: 3px;
-} 
 
-.noRooms {
-    text-align: center;
-    margin: 40px 0;
+/* =========================
+   Create Room Button
+   ========================= */
 
-    color: var(--secondary-text);
-    font-size: 1.2rem;
+.app > button {
+  display: block;
+  width: 100%;
+  max-width: 300px;
+  min-height: 48px;
+
+  margin: 0 auto;
+  padding: 0.75rem 1.5rem;
+
+  background-color: var(--blue);
+  color: var(--white);
+
+  border: none;
+  border-radius: 6px;
+
+  font-weight: 700;
+  font-size: 1rem;
 }
 
-/* ---------- Modal Overlay ---------- */
+.app > button:hover {
+  background-color: var(--blue-dark);
+}
+
+/* =========================
+   Modal Overlay
+   ========================= */
 
 .modalOverlay {
-    position: fixed;
-    inset: 0;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    padding: 20px;
-
-    background-color: rgba(0, 0, 0, 0.5);
-
-    z-index: 1000;
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background-color: rgba(15, 23, 42, 0.55);
+  z-index: 1000;
 }
 
 
-/* ---------- Delete Modal ---------- */
+/* =========================
+   Modal
+   ========================= */
 
-.deleteModal {
+.modal,
+.createRoomModal {
+  width: 100%;
+  max-width: 560px;
+  padding: 2rem;
+  background-color: var(--white);
+  border: 1px solid var(--gray-border);
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.modal h2,
+.createRoomModal h2 {
+  margin: 0 0 1.5rem;
+  font-size: 1.8rem;
+  color: var(--text);
+}
+
+
+/* =========================
+   Delete Room Modal
+   ========================= */
+
+.modal p {
+  margin: 0 0 1.5rem;
+  color: var(--text);
+}
+
+
+/* =========================
+   Modal Buttons
+   ========================= */
+
+.modal button,
+.createRoomFormArea button {
+  min-height: 46px;
+  padding: 0.7rem 1.25rem;
+  border-radius: 6px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+
+/* Primary button */
+
+.modal .primaryButton,
+.createRoomFormArea button[type="submit"] {
+  background-color: var(--blue);
+  color: var(--white);
+  border: 2px solid var(--blue);
+}
+
+.modal .primaryButton:hover,
+.createRoomFormArea button[type="submit"]:hover {
+  background-color: var(--blue-dark);
+  border-color: var(--blue-dark);
+}
+
+
+/* Secondary button */
+
+.modal .secondaryButton,
+.createRoomFormArea button[type="button"] {
+  background-color: var(--gray-light);
+  color: var(--text);
+  border: 2px solid var(--gray-border);
+}
+
+.modal .secondaryButton:hover,
+.createRoomFormArea button[type="button"]:hover {
+  background-color: var(--blue-light);
+  border-color: var(--blue-border);
+} 
+
+.modal button {
+  width: 100%;
+  display: block;
+}
+
+.modal .primaryButton {
+  margin-bottom: 1rem;
+}
+
+/* =========================
+   Empty Room State
+   ========================= */
+
+.roomDisplayArea:empty::before {
+  content: "No rooms";
+
+  display: block;
+
+  padding: 3rem;
+
+  text-align: center;
+
+  color: var(--text-light);
+  background-color: var(--white);
+
+  border: 1px solid var(--gray-border);
+  border-radius: 12px;
+}
+
+
+/* =========================
+   Mobile
+   ========================= */
+
+@media (max-width: 800px) {
+  .app {
+    padding: 1.25rem;
+  }
+
+  .app h1 {
+    font-size: 2rem;
+  }
+
+  .roomDisplayArea {
+    grid-template-columns: 1fr;
+  }
+
+  .roomCard {
+    padding: 1.25rem;
+  }
+}
+
+@media (max-width: 500px) {
+  .app {
+    padding: 1rem;
+  }
+
+  .app h1 {
+    font-size: 1.75rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .createRoomModal,
+  .deleteRoomModal {
+    padding: 1.5rem;
+  }
+
+  .deleteRoomModal > div {
+    flex-direction: column;
+  }
+
+  .createRoomFormArea button,
+  .deleteRoomModal button {
     width: 100%;
-    max-width: 450px;
-    box-sizing: border-box;
-
-    padding: 32px;
-
-    background-color: var(--surface);
-    color: var(--text);
-
-    border: 1px solid var(--border);
-    border-radius: 12px;
-
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-
-    text-align: center;
-}
-
-.deleteModal h2 {
-    margin: 0 0 16px;
-
-    font-size: 1.5rem;
-}
-
-.deleteModal p {
-    margin: 0 0 28px;
-
-    color: var(--secondary-text);
-    line-height: 1.5;
-}
-
-
-/* ---------- Modal Buttons ---------- */
-
-.deleteModal button {
-    width: 100%;
-
-    padding: 12px 20px;
-
-    border: none;
-    border-radius: 6px;
-
-    font-size: 1rem;
-    font-weight: 600;
-
-    cursor: pointer;
-}
-
-.deleteModal button:first-of-type {
-    background-color: var(--danger);
-    color: white;
-}
-
-.deleteModal button:first-of-type:hover {
-    background-color: var(--danger-hover);
-}
-
-.deleteModal button:last-of-type {
-    margin-top: 10px;
-
-    background-color: transparent;
-    color: var(--text);
-
-    border: 1px solid var(--border);
-}
-
-.deleteModal button:last-of-type:hover {
-    background-color: var(--background);
-}
-
-
-/* ---------- Keyboard Focus ---------- */
-
-.deleteModal button:focus-visible {
-    outline: 3px solid var(--focus);
-    outline-offset: 3px;
-}
-
-/* ---------- Mobile ---------- */
-
-@media (max-width: 600px) {
-    .app {
-        padding: 32px 16px;
-    }
-
-    .app h1 {
-        margin-bottom: 28px;
-        font-size: 2rem;
-    }
-
-    .roomDisplayArea {
-        grid-template-columns: 1fr;
-    }
+  }
 }

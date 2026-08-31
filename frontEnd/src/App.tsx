@@ -8,6 +8,7 @@ import type { UserType } from "./types/UserType";
 import { initialRooms } from "./utils/initialRoomsList";
 import  DisplayRooms  from "./components/DisplayRooms";
 import DeleteRoomModal from "./components/DeleteRoomModal";
+import CreateRoomModal from "./components/CreateRoomModal";
 
 //component imports goes here
 
@@ -69,6 +70,21 @@ function App() {
     });
     setRoomToDelete(null);
     hideAllModals();
+  } 
+
+  function addRoom(roomName: string) {
+    if (roomName === "") {
+      return;
+    }
+    const newRoom: RoomType = {
+      id: Date.now(),
+      name: roomName,
+      users: [],
+      dateCreated: new Date(),
+      isActive: false
+    };
+    setRooms((currentRooms) => [...currentRooms, newRoom]);
+    hideAllModals();
   }
 
   return (
@@ -77,17 +93,27 @@ function App() {
       <div className="roomDisplayArea">
         <DisplayRooms rooms={rooms} onDeleteRoom={handleDeleteRoom} />
       </div>
-      <button>Create Room</button>
-      {showDeleteRoomModal && roomToDelete && (
-      <DeleteRoomModal
-          roomToDelete={roomToDelete}
-          onConfirm={confirmDeleteRoom}
-          onCancel={() => {
-              setRoomToDelete(null);
-              hideAllModals();
+      <button onClick={() => setShowCreateRoomModal(true)}>Create Room</button> 
+
+      {showCreateRoomModal && (
+        <CreateRoomModal 
+          onAddRoom={addRoom}
+          onCloseAddRoom = { () => {
+            hideAllModals();
           }}
-      />
-  )}
+        />
+      )}
+
+      {showDeleteRoomModal && roomToDelete && (
+          <DeleteRoomModal
+              roomToDelete={roomToDelete}
+              onConfirm={confirmDeleteRoom}
+              onCancel={() => {
+                  setRoomToDelete(null);
+                  hideAllModals();
+              }}
+          />
+      )}
     </main>
   )
 }

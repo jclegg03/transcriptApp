@@ -9,15 +9,15 @@ interface deleteRoomProps {
 function DeleteRoomModal({ roomToDelete, onConfirm, onCancel }: deleteRoomProps) {
     return (
         <div className="modalOverlay">
-            <div className="deleteModal">
+            <div className="modal">
                 <h2>Delete Room</h2>
                 <p>
                     Are you sure you want to delete "{roomToDelete.name}"?
                 </p>
-                <button onClick={onConfirm}>
+                <button onClick={onConfirm} className="primaryButton">
                     Delete Room
                 </button>
-                <button onClick={onCancel}>
+                <button onClick={onCancel} className="secondaryButton">
                     Cancel
                 </button>
             </div>
