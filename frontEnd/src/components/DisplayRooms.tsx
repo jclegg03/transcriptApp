@@ -1,45 +1,35 @@
 import type { RoomType } from "../types/RoomType";
-import type { UserType } from "../types/UserType"; 
 
 interface displayRoomsProps {
-    //need something to get the room data that it is creating for 
     rooms: RoomType[];
-} 
+    onJoinRoom: (room: RoomType) => void;
+}
 
-function DisplayRooms({ rooms } : displayRoomsProps) {
+function DisplayRooms({ rooms, onJoinRoom }: displayRoomsProps) {
     return (
         <div>
             {rooms.map((room) => (
-                <div key={room.id}>
+                <div key={room.roomId}>
                     <h2>
                         {room.name}
                     </h2>
                     <p>
-                        {room.isActive ? "Active" : "Inactive"}
+                        {room.status === "live" ? "Active" : "Inactive"}
                     </p>
                     <p>
-                        {room.users.length} people
+                        {room.listenerCount + (room.hasSpeaker ? 1 : 0)} people
                     </p>
-                    <button>
+                    <button onClick={() => onJoinRoom(room)}>
                         Join Room
                     </button>
                     <button>
                         Delete Room
-                    </button> 
+                    </button>
                 </div>
             ))}
-        
+
         </div>
     )
-} 
+}
 
 export default DisplayRooms;
-
-// export interface RoomType {
-//     id: number;
-//     name: string;
-//     users: UserType[];
-//     creator: UserType;
-//     dateCreated: Date;
-//     isActive: boolean;
-// }
