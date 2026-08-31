@@ -33,7 +33,9 @@ Programming
   - Something to keep track of rooms. The room ID, name, users in the room, who created it, and when it was created **
   - Something to keep track of the message. The ID, speakerID, speakerName, text, timestamp, whether or not it is finished **
   - Something to keep track of the overall state of hte room 
-  - 
-  - 
+3. Accessibility
+  - Settings for dark mode/light mode
+  - Settings for font size
+  
 
 */
