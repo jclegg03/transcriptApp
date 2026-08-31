@@ -1,1 +1,9 @@
-*/node_modules
+node_modules/
+*/dist
+.env
+*/.env
+*.key.json
+*-key.json
+service-account*.json
+coverage/
+.DS_Store

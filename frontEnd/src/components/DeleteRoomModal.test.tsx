@@ -1,14 +1,21 @@
-import { render, screen, fireEvent } from "@testing-library/react"; 
+import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 import "@testing-library/jest-dom/vitest";
-import DeleteRoomModal from "./DeleteRoomModal"; 
-import DisplayRooms from "./DisplayRooms";
-import { initialRooms } from "../utils/initialRoomsList";
+import DeleteRoomModal from "./DeleteRoomModal";
 import type { RoomType } from "../types/RoomType";
+
+const sampleRoom: RoomType = {
+    roomId: "STUDY1",
+    name: "Study Group",
+    status: "live",
+    hasSpeaker: true,
+    listenerCount: 2,
+    createdAt: Date.now(),
+};
 
 describe("DeleteRoomModal", () => {
     it("displays the name of the room being deleted", () => {
-        const roomToDelete: RoomType = initialRooms[0];
+        const roomToDelete: RoomType = sampleRoom;
 
         render(
             <DeleteRoomModal
@@ -23,7 +30,7 @@ describe("DeleteRoomModal", () => {
         ).toBeInTheDocument();
     });
     it("displays Delete Room and Cancel buttons", () => {
-        const roomToDelete: RoomType = initialRooms[0];
+        const roomToDelete: RoomType = sampleRoom;
 
         render(
             <DeleteRoomModal
@@ -42,7 +49,7 @@ describe("DeleteRoomModal", () => {
         ).toBeInTheDocument();
     }); 
     it("calls onConfirm when Delete Room is clicked", () => {
-        const roomToDelete: RoomType = initialRooms[0];
+        const roomToDelete: RoomType = sampleRoom;
         const onConfirm = vi.fn();
 
         render(
@@ -60,7 +67,7 @@ describe("DeleteRoomModal", () => {
         expect(onConfirm).toHaveBeenCalled();
     });
     it("calls onCancel when Cancel is clicked", () => {
-        const roomToDelete: RoomType = initialRooms[0];
+        const roomToDelete: RoomType = sampleRoom;
         const onCancel = vi.fn();
 
         render(
