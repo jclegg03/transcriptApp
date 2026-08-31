@@ -6,4 +6,5 @@ export interface RoomType {
     users: UserType[];
     creator: UserType;
     dateCreated: Date;
+    isActive: false;
 }

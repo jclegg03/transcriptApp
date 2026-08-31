@@ -32,10 +32,25 @@ Programming
   - Something to keep track of users. Their ID, status (speaking or listening), and probably which room they are in **
   - Something to keep track of rooms. The room ID, name, users in the room, who created it, and when it was created **
   - Something to keep track of the message. The ID, speakerID, speakerName, text, timestamp, whether or not it is finished **
-  - Something to keep track of the overall state of hte room 
+  - Something to keep track of the overall state of the room 
 3. Accessibility
   - Settings for dark mode/light mode
   - Settings for font size
-  
+
+Design:
+  - Maybe the home page could just be the rooms page. Then when the user clicks on a room, they can enter their name then.
+  - The main room page should display
+    - Each room should be in a card.
+    - Each card should display
+       - The name of the room
+       - Date created
+       - Number of participants
+       - If it is active
+       - If the user's ID matches the person who created the room, then there will be a delete room button
+  - Each room page should display:
+    - Maybe number of participants
+    - The button to speak
+    - Transcript area
+    - Button to leave
 
 */
