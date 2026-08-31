@@ -1,5 +1,6 @@
 import type { WebSocket } from "ws";
 import type { RoomRegistry } from "../rooms/RoomRegistry.js";
+import { env } from "../config/env.js";
 import { send } from "./fanout.js";
 
 export function handleListenerConnection(ws: WebSocket, roomId: string, registry: RoomRegistry): void {
@@ -12,6 +13,12 @@ export function handleListenerConnection(ws: WebSocket, roomId: string, registry
   if (room.status === "ended") {
     send(ws, { type: "room-ended", reason: "speaker-ended" });
     ws.close(1000, "room-ended");
+    return;
+  }
+
+  if (room.listeners.size >= env.maxListenersPerRoom) {
+    send(ws, { type: "error", code: "room-full", message: "This room has reached its listener limit." });
+    ws.close(4008, "room-full");
     return;
   }
 
