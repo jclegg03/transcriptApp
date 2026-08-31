@@ -18,7 +18,7 @@ describe("CreateRoomModal", () => {
             screen.getByText(/Please enter a room name/i)
         ).toBeInTheDocument();
         expect(
-            screen.getByRole("button", { name: "Add Room" })
+            screen.getByRole("button", { name: "Add and Join Room" })
         ).toBeInTheDocument();
         expect(
             screen.getByRole("button", { name: "Cancel" })
@@ -59,7 +59,7 @@ describe("CreateRoomModal", () => {
         );
         const input = screen.getByPlaceholderText("Enter name...");
         await user.type(input, "Study Group");
-        await user.click(screen.getByRole("button", { name: "Add Room" }));
+        await user.click(screen.getByRole("button", { name: "Add and Join Room" }));
         expect(onAddRoom).toHaveBeenCalledWith("Study Group");
     });
     it("calls onCloseAddRoom when Cancel is clicked", async () => {

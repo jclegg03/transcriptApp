@@ -9,7 +9,7 @@ import CreateRoomModal from "./components/CreateRoomModal";
 import RoomView from "./components/RoomView";
 import { createRoom, listRooms } from "./api/rooms";
 
-import './styles/App.css'
+import './styles/App.css';
 
 function App() {
   const [rooms, setRooms] = useState<RoomType[]>([]);
