@@ -60,11 +60,15 @@ export class RoomRegistry extends EventEmitter {
   }
 
   activeRoomCount(): number {
-    let count = 0;
+    return this.listActiveRoomIds().length;
+  }
+
+  listActiveRoomIds(): string[] {
+    const ids: string[] = [];
     for (const room of this.rooms.values()) {
-      if (room.status !== "ended") count++;
+      if (room.status !== "ended") ids.push(room.id);
     }
-    return count;
+    return ids;
   }
 
   attachSpeaker(roomId: string, token: string, socket: WebSocket): AttachSpeakerResult {
