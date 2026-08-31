@@ -45,11 +45,3 @@ function CreateRoomModal({ onAddRoom, onCloseAddRoom }: createRoomProps) {
 } 
 
 export default CreateRoomModal; 
-
-// export interface RoomType {
-//     id: number;
-//     name: string;
-//     users: UserType[];
-//     dateCreated: Date;
-//     isActive: boolean;
-// }
