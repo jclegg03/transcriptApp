@@ -30,16 +30,36 @@ export function handleSpeakerConnection(
     }
     try {
       const msg = JSON.parse(data.toString()) as SpeakerClientMessage;
-      if (msg.type === "end-room") registry.endRoom(roomId, "speaker-ended");
+      if (msg.type === "end-room") {
+        finalizePendingTranscript(room);
+        registry.endRoom(roomId, "speaker-ended");
+      }
     } catch {
       // ignore malformed control messages
     }
   });
 
   ws.on("close", () => {
+    finalizePendingTranscript(room);
     room.sttSession?.end();
     room.sttSession = null;
     if (room.status !== "ended") registry.detachSpeaker(roomId);
+  });
+}
+
+// Google may still be mid-utterance when the speaker disconnects/ends the room; without this,
+// that trailing interim text would never be finalized and would just vanish for listeners.
+function finalizePendingTranscript(room: Room): void {
+  if (!room.currentInterim) return;
+  const segment: TranscriptSegment = { ...room.currentInterim, isFinal: true, updatedAt: Date.now() };
+  room.transcript.push(segment);
+  room.currentInterim = null;
+  broadcastToListeners(room, {
+    type: "transcript",
+    segmentId: segment.id,
+    text: segment.text,
+    isFinal: true,
+    updatedAt: segment.updatedAt,
   });
 }
 
