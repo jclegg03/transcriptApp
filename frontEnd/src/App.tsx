@@ -1,29 +1,21 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
-import type { RoleType } from "./types/RoleType";
 import type { RoomType } from "./types/RoomType";
-import type { TranscriptType } from "./types/TranscriptType";
-import type { UserType } from "./types/UserType";
+import type { RoomMembership } from "./types/RoomMembership";
 
-import { initialRooms } from "./utils/initialRoomsList";
-import  DisplayRooms  from "./components/DisplayRooms";
-//component imports goes here
+import DisplayRooms from "./components/DisplayRooms";
+import CreateRoomModal from "./components/CreateRoomModal";
+import RoomView from "./components/RoomView";
+import { createRoom, listRooms } from "./api/rooms";
 
 import './styles/App.css'
 
 function App() {
-  const [rooms, setRooms] = useState<RoomType[]>(initialRooms);
-  const [showNameModal, setShowNameModal] = useState(false);
-  const [userName, setUserName] = useState("");
+  const [rooms, setRooms] = useState<RoomType[]>([]);
+  const [loadError, setLoadError] = useState<string | null>(null);
   const [showCreateRoomModal, setShowCreateRoomModal] = useState(false);
-  const [showDeleteRoomModal, setShowDeleteRoomModal] = useState(false);
+  const [membership, setMembership] = useState<RoomMembership | null>(null);
 
-  //this one is just for testing for now
-  const [currentUser, setCurrentUser] = useState<UserType>({
-    id: 1, //because this number has not been used yet in initialRooms
-    role: "LISTENER",
-    name: "Audrey"
-  });
   /*
   To do:
   1. Create room
@@ -41,28 +33,67 @@ function App() {
   
   NOTE THAT DELETE ROOM FUNCTIONALITY WILL BE DONE LAST AS THAT WILL ALSO REQUIRE LOGIN STUFF 
   */ 
-
-  function hideAllModals() {
-    setShowNameModal(false);
-    setShowCreateRoomModal(false);
-    setShowDeleteRoomModal(false);
+  async function refreshRooms() {
+    try {
+      const fetched = await listRooms();
+      setRooms(fetched);
+      setLoadError(null);
+    } catch (err) {
+      setLoadError(err instanceof Error ? err.message : "Failed to load rooms");
+    }
   }
 
+  useEffect(() => {
+    refreshRooms();
+  }, []);
+
+  async function handleCreateRoom(name: string) {
+    try {
+      const created = await createRoom(name);
+      sessionStorage.setItem(`speakerToken:${created.roomId}`, created.speakerToken);
+      setShowCreateRoomModal(false);
+      setMembership({ roomId: created.roomId, name: created.name, role: "SPEAKER" });
+    } catch (err) {
+      setLoadError(err instanceof Error ? err.message : "Failed to create room");
+    }
+  }
+
+  function handleJoinRoom(room: RoomType) {
+    setMembership({ roomId: room.roomId, name: room.name, role: "LISTENER" });
+  }
+
+  function handleLeaveRoom() {
+    setMembership(null);
+    refreshRooms();
+  }
+
+  if (membership) {
+    return (
+      <main className="app">
+        <RoomView membership={membership} onLeave={handleLeaveRoom} />
+      </main>
+    );
+  }
 
   return (
     <main className="app">
       <h1>TITLE</h1>
+      {loadError && <p role="alert">{loadError}</p>}
       <div className="roomDisplayArea">
-        <DisplayRooms rooms={rooms} />
+        <DisplayRooms rooms={rooms} onJoinRoom={handleJoinRoom} />
       </div>
-      <button>Create Room</button>
+      <button onClick={() => setShowCreateRoomModal(true)}>Create Room</button>
+      {showCreateRoomModal && (
+        <CreateRoomModal
+          onCreate={handleCreateRoom}
+          onCancel={() => setShowCreateRoomModal(false)}
+        />
+      )}
     </main>
   )
 }
 
 export default App
- 
-
 /*
 Brainstorm:
 1. Have a main room page where someone can join in, create, and delete rooms
