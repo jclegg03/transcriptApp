@@ -4,9 +4,10 @@ import type { UserType } from "../types/UserType";
 interface displayRoomsProps {
     //need something to get the room data that it is creating for 
     rooms: RoomType[];
+    onDeleteRoom: (roomId: number) => void;
 } 
 
-function DisplayRooms({ rooms } : displayRoomsProps) {
+function DisplayRooms({ rooms, onDeleteRoom } : displayRoomsProps) {
     if (rooms.length === 0) {
         return <p className="noRooms">No rooms. Create one to get started.</p>;
     }
@@ -31,7 +32,7 @@ function DisplayRooms({ rooms } : displayRoomsProps) {
                     <button>
                         Join Room
                     </button>
-                    <button className="deleteButton">
+                    <button className="deleteButton" onClick={() => onDeleteRoom(room.id)}>
                         Delete Room
                     </button> 
                 </div>

@@ -7,6 +7,8 @@ import type { UserType } from "./types/UserType";
 
 import { initialRooms } from "./utils/initialRoomsList";
 import  DisplayRooms  from "./components/DisplayRooms";
+import DeleteRoomModal from "./components/DeleteRoomModal";
+
 //component imports goes here
 
 import './styles/App.css'
@@ -17,6 +19,7 @@ function App() {
   const [userName, setUserName] = useState("");
   const [showCreateRoomModal, setShowCreateRoomModal] = useState(false);
   const [showDeleteRoomModal, setShowDeleteRoomModal] = useState(false);
+  const [roomToDelete, setRoomToDelete] = useState<RoomType | null>(null);
 
   //this one is just for testing for now
   const [currentUser, setCurrentUser] = useState<UserType>({
@@ -48,14 +51,43 @@ function App() {
     setShowDeleteRoomModal(false);
   }
 
+  function handleDeleteRoom(roomId: number) {
+    const room = rooms.find((room) => room.id === roomId);
+    if (!room) {
+      return;
+    }
+    setRoomToDelete(room);
+    setShowDeleteRoomModal(true);
+  } 
+
+  function confirmDeleteRoom() {
+    if (!roomToDelete) {
+      return;
+    }
+    setRooms((currentRooms) => {
+      return currentRooms.filter((room) => room.id !== roomToDelete.id);
+    });
+    setRoomToDelete(null);
+    hideAllModals();
+  }
 
   return (
     <main className="app">
       <h1>TITLE</h1>
       <div className="roomDisplayArea">
-        <DisplayRooms rooms={rooms} />
+        <DisplayRooms rooms={rooms} onDeleteRoom={handleDeleteRoom} />
       </div>
       <button>Create Room</button>
+      {showDeleteRoomModal && roomToDelete && (
+      <DeleteRoomModal
+          roomToDelete={roomToDelete}
+          onConfirm={confirmDeleteRoom}
+          onCancel={() => {
+              setRoomToDelete(null);
+              hideAllModals();
+          }}
+      />
+  )}
     </main>
   )
 }

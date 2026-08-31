@@ -9,13 +9,13 @@ import type { RoomType } from "../types/RoomType";
 describe("DisplayRooms", () => {
     it("displays nothing if there are no rooms", () => {
         render(
-            <DisplayRooms rooms={[]} />
+            <DisplayRooms rooms={[]} onDeleteRoom={vi.fn()} />
         ); 
         expect(screen.getByText("No rooms. Create one to get started.")).toBeInTheDocument();
     }); 
     it("displays all three task names", () => {
         render(
-            <DisplayRooms rooms={initialRooms} />
+            <DisplayRooms rooms={initialRooms} onDeleteRoom={vi.fn()} />
         );
         expect(screen.getByText("Study Group")).toBeInTheDocument();
         expect(screen.getByText("Book Club")).toBeInTheDocument();
@@ -23,14 +23,14 @@ describe("DisplayRooms", () => {
     });
     it("displays all three active/inactive status texts", () => {
         render(
-            <DisplayRooms rooms={initialRooms} />
+            <DisplayRooms rooms={initialRooms} onDeleteRoom={vi.fn()} />
         );
         expect(screen.getAllByText("Active")).toHaveLength(2);
         expect(screen.getAllByText("Inactive")).toHaveLength(1);
     });
     it("displays the correct number of people inside the room", () => {
         render(
-            <DisplayRooms rooms={initialRooms} />
+            <DisplayRooms rooms={initialRooms} onDeleteRoom={vi.fn()} />
         );
         expect(screen.getByText("3 people")).toBeInTheDocument();
         expect(screen.getByText("2 people")).toBeInTheDocument();
@@ -45,7 +45,7 @@ describe("DisplayRooms", () => {
             isActive: false
         };
         render (
-            <DisplayRooms rooms={[emptyRoom]} />
+            <DisplayRooms rooms={[emptyRoom]} onDeleteRoom={vi.fn()} />
         );
         expect(screen.getByText("0 people")).toBeInTheDocument();
         expect(screen.getByText("Inactive")).toBeInTheDocument(); //it should be inactive if there are no people inside.
