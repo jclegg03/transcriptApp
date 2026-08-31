@@ -1,12 +1,46 @@
-//import { useState } from 'react'
+import { useState } from 'react'
+
+import type { RoleType } from "./types/RoleType";
+import type { RoomType } from "./types/RoomType";
+import type { TranscriptType } from "./types/TranscriptType";
+import type { UserType } from "./types/UserType";
+
+import { initialRooms } from "./utils/initialRoomsList";
+
+//component imports goes here
+
 import './styles/App.css'
 
 function App() {
+  const [rooms, setRooms] = useState<RoomType[]>(initialRooms);
+  const [showNameModal, setShowNameModal] = useState(false);
+  const [userName, setUserName] = useState("");
+  const [showCreateRoomModal, setShowCreateRoomModal] = useState(false);
+  const [showDeleteRoomModal, setShowDeleteRoomModal] = useState(false);
 
+  /*
+  To do:
+  1. Create room
+    - Modal where the user can enter the name of the room 
+
+  2. Join room
+    - Opens a popup that allows the user to enter a name before joining a room
+  
+  3. Display all the rooms
+    - Join room
+    - If there is soemone speaking in that room, then show that it is active. If not, show inactive
+    - How many people are in the room
+    - If the user matches the creator of the room, then they can also see delete room button 
+    - Clicking the delete room opens the modal which is basically just a "Are you sure?" kind of thing
+  
+  */
   return (
-    <>
-      <h1>Testing</h1>
-    </>
+    <main className="app">
+      <h1>TITLE</h1>
+      <div className="roomDisplayArea">
+        //create and display all rooms here
+      </div>
+    </main>
   )
 }
 
