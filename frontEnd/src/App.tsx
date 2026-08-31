@@ -6,7 +6,7 @@ import type { TranscriptType } from "./types/TranscriptType";
 import type { UserType } from "./types/UserType";
 
 import { initialRooms } from "./utils/initialRoomsList";
-import { DisplayRooms } from "./components/DisplayRooms";
+import  DisplayRooms  from "./components/DisplayRooms";
 //component imports goes here
 
 import './styles/App.css'
@@ -20,7 +20,7 @@ function App() {
 
   //this one is just for testing for now
   const [currentUser, setCurrentUser] = useState<UserType>({
-    id: 100, //because this number has not been used yet in initialRooms
+    id: 1, //because this number has not been used yet in initialRooms
     role: "LISTENER",
     name: "Audrey"
   });
@@ -40,13 +40,22 @@ function App() {
     - Clicking the delete room opens the modal which is basically just a "Are you sure?" kind of thing
   
   NOTE THAT DELETE ROOM FUNCTIONALITY WILL BE DONE LAST AS THAT WILL ALSO REQUIRE LOGIN STUFF 
-  */
+  */ 
+
+  function hideAllModals() {
+    setShowNameModal(false);
+    setShowCreateRoomModal(false);
+    setShowDeleteRoomModal(false);
+  }
+
+
   return (
     <main className="app">
       <h1>TITLE</h1>
       <div className="roomDisplayArea">
-        <DisplayRooms rooms={rooms} currentUser={currentUser} />
+        <DisplayRooms rooms={rooms} />
       </div>
+      <button>Create Room</button>
     </main>
   )
 }

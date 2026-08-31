@@ -21,11 +21,6 @@ export const initialRooms: RoomType[] = [
                 role: "LISTENER"
             }
         ],
-        creator: {
-            id: 1,
-            name: "Sarah",
-            role: "SPEAKER"
-        },
         dateCreated: new Date("2026-08-30"),
         isActive: true
     },
@@ -44,11 +39,6 @@ export const initialRooms: RoomType[] = [
                 role: "LISTENER"
             }
         ],
-        creator: {
-            id: 4,
-            name: "Michael",
-            role: "SPEAKER"
-        },
         dateCreated: new Date("2026-08-29"),
         isActive: false
     },
@@ -77,11 +67,6 @@ export const initialRooms: RoomType[] = [
                 role: "LISTENER"
             }
         ],
-        creator: {
-            id: 6,
-            name: "Alex",
-            role: "SPEAKER"
-        },
         dateCreated: new Date("2026-08-28"),
         isActive: true
     }

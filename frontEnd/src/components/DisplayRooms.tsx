@@ -1,14 +1,12 @@
-import { useState } from "react";
 import type { RoomType } from "../types/RoomType";
 import type { UserType } from "../types/UserType"; 
 
 interface displayRoomsProps {
     //need something to get the room data that it is creating for 
     rooms: RoomType[];
-    currentUser: UserType;
 } 
 
-function DisplayRooms({ rooms, currentUser } : displayRoomsProps) {
+function DisplayRooms({ rooms } : displayRoomsProps) {
     return (
         <div>
             {rooms.map((room) => (
@@ -25,11 +23,9 @@ function DisplayRooms({ rooms, currentUser } : displayRoomsProps) {
                     <button>
                         Join Room
                     </button>
-                    {room.creator.id === currentUser.id && (
-                        <button>
-                            Delete Room
-                        </button>
-                    )}
+                    <button>
+                        Delete Room
+                    </button> 
                 </div>
             ))}
         
