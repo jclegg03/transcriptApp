@@ -25,21 +25,49 @@ export function handleSpeakerConnection(
   ws.on("message", (data: RawData, isBinary: boolean) => {
     if (room.status === "ended") return;
     if (isBinary) {
-      room.sttSession?.write(data as Buffer);
+      const chunk = data as Buffer;
+      room.audioBytesReceived += chunk.length;
+      room.audioChunksReceived += 1;
+      if (room.audioChunksReceived % 10 === 0) {
+        console.log(
+          `[audio] room ${roomId}: ${room.audioChunksReceived} chunks, ${room.audioBytesReceived} bytes total`
+        );
+      }
+      room.sttSession?.write(chunk);
       return;
     }
     try {
       const msg = JSON.parse(data.toString()) as SpeakerClientMessage;
-      if (msg.type === "end-room") registry.endRoom(roomId, "speaker-ended");
+      if (msg.type === "end-room") {
+        finalizePendingTranscript(room);
+        registry.endRoom(roomId, "speaker-ended");
+      }
     } catch {
       // ignore malformed control messages
     }
   });
 
   ws.on("close", () => {
+    finalizePendingTranscript(room);
     room.sttSession?.end();
     room.sttSession = null;
     if (room.status !== "ended") registry.detachSpeaker(roomId);
+  });
+}
+
+// Google may still be mid-utterance when the speaker disconnects/ends the room; without this,
+// that trailing interim text would never be finalized and would just vanish for listeners.
+function finalizePendingTranscript(room: Room): void {
+  if (!room.currentInterim) return;
+  const segment: TranscriptSegment = { ...room.currentInterim, isFinal: true, updatedAt: Date.now() };
+  room.transcript.push(segment);
+  room.currentInterim = null;
+  broadcastToListeners(room, {
+    type: "transcript",
+    segmentId: segment.id,
+    text: segment.text,
+    isFinal: true,
+    updatedAt: segment.updatedAt,
   });
 }
 

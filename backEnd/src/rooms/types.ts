@@ -34,4 +34,6 @@ export interface Room {
   currentInterim: TranscriptSegment | null;
   sttSession: SttSession | null;
   reconnectDeadline: number | null;
+  audioBytesReceived: number;
+  audioChunksReceived: number;
 }

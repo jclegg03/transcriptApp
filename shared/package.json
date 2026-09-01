@@ -3,6 +3,7 @@
   "private": true,
   "type": "module",
   "exports": {
-    "./api/rooms": "./api/rooms.ts"
+    "./api/rooms": "./api/rooms.ts",
+    "./api/ws": "./api/ws.ts"
   }
 }
