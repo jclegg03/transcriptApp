@@ -25,7 +25,15 @@ export function handleSpeakerConnection(
   ws.on("message", (data: RawData, isBinary: boolean) => {
     if (room.status === "ended") return;
     if (isBinary) {
-      room.sttSession?.write(data as Buffer);
+      const chunk = data as Buffer;
+      room.audioBytesReceived += chunk.length;
+      room.audioChunksReceived += 1;
+      if (room.audioChunksReceived % 10 === 0) {
+        console.log(
+          `[audio] room ${roomId}: ${room.audioChunksReceived} chunks, ${room.audioBytesReceived} bytes total`
+        );
+      }
+      room.sttSession?.write(chunk);
       return;
     }
     try {
