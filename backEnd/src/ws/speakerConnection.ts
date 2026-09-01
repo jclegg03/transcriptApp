@@ -83,24 +83,61 @@ function startSttSession(room: Room, registry: RoomRegistry): SttSession {
   });
 }
 
+// function applySttResult(room: Room, result: SttResult): void {
+//   const now = Date.now();
+//   const segment: TranscriptSegment = room.currentInterim
+//     ? { ...room.currentInterim, text: result.text, isFinal: result.isFinal, updatedAt: now }
+//     : { id: randomUUID(), text: result.text, isFinal: result.isFinal, startedAt: now, updatedAt: now };
+
+//   if (result.isFinal) {
+//     room.transcript.push(segment);
+//     room.currentInterim = null;
+//   } else {
+//     room.currentInterim = segment;
+//   }
+
+//   // broadcastToListeners(room, {
+//   //   type: "transcript",
+//   //   segmentId: segment.id,
+//   //   text: segment.text,
+//   //   isFinal: segment.isFinal,
+//   //   updatedAt: segment.updatedAt,
+//   // });
+// }
+
 function applySttResult(room: Room, result: SttResult): void {
-  const now = Date.now();
-  const segment: TranscriptSegment = room.currentInterim
-    ? { ...room.currentInterim, text: result.text, isFinal: result.isFinal, updatedAt: now }
-    : { id: randomUUID(), text: result.text, isFinal: result.isFinal, startedAt: now, updatedAt: now };
+    const now = Date.now();
 
-  if (result.isFinal) {
-    room.transcript.push(segment);
-    room.currentInterim = null;
-  } else {
-    room.currentInterim = segment;
-  }
+    const segment: TranscriptSegment = room.currentInterim
+        ? {
+            ...room.currentInterim,
+            text: result.text,
+            isFinal: result.isFinal,
+            updatedAt: now
+        }
+        : {
+            id: randomUUID(),
+            text: result.text,
+            isFinal: result.isFinal,
+            startedAt: now,
+            updatedAt: now
+        };
 
-  broadcastToListeners(room, {
-    type: "transcript",
-    segmentId: segment.id,
-    text: segment.text,
-    isFinal: segment.isFinal,
-    updatedAt: segment.updatedAt,
-  });
+    if (result.isFinal) {
+        room.transcript.push(segment);
+        room.currentInterim = null;
+    } else {
+        room.currentInterim = segment;
+    }
+
+    const transcriptMessage = {
+        type: "transcript" as const,
+        segmentId: segment.id,
+        text: segment.text,
+        isFinal: segment.isFinal,
+        updatedAt: segment.updatedAt,
+    };
+
+    sendToSpeaker(room, transcriptMessage);
+    broadcastToListeners(room, transcriptMessage);
 }
