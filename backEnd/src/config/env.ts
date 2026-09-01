@@ -12,5 +12,5 @@ export const env = {
   // Empty allowlist permits any origin (dev default) — set explicitly in production.
   allowedOrigins: parseOrigins(process.env.ALLOWED_ORIGINS),
   // Dev-only: swap the real Google STT stream for an in-process synthetic one.
-  mockStt: /* process.env.MOCK_STT === "true" */ true,
+  mockStt: process.env.MOCK_STT === "true",
 };
