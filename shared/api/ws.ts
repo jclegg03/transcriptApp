@@ -9,8 +9,8 @@ export type SpeakerServerMessage =
   | { type: "ready"; roomId: string }
   | { type: "listener-count"; count: number }
   | { type: "stt-status"; state: "connected" | "reconnecting" | "error"; message?: string }
+  | { type: "transcript"; segmentId: string; text: string; isFinal: boolean; updatedAt: number }
   | { type: "error"; code: string; message: string };
-
 // Server -> listener
 export type ListenerServerMessage =
   | { type: "room-state"; status: "created" | "live" | "speaker-reconnecting"; listenerCount: number }

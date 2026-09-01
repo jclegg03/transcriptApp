@@ -154,18 +154,30 @@ function RoomView({ membership, onLeave }: RoomViewProps) {
                             : "Press the button below when you are ready to speak."}
                     </p>
 
-                    <button
-                        className="speakButton"
-                        onClick={micStatus === "streaming" ? stopMic : startMic}
-                        disabled={!micEligible || micStatus === "starting"}
-                    >
-                        {micStatus === "streaming" ? "Stop Speaking" : "Start Speaking"}
-                    </button>
+                    <div className="speakingControls">
+                        <button
+                            className="speakButton"
+                            onClick={micStatus === "streaming" ? stopMic : startMic}
+                            disabled={!micEligible || micStatus === "starting"}
+                        >
+                            {micStatus === "streaming" ? "Stop Speaking" : "Start Speaking"}
+                        </button>
 
-                    <button onClick={endRoom} disabled={connectionStatus !== "open"}>
-                        End Room
-                    </button>
-                    <p>Ending the room disconnects every listener immediately. Leaving keeps the room open for 30 seconds in case you reconnect.</p>
+                        <div className="endRoomControl">
+                            <button
+                                className="endRoomButton"
+                                onClick={endRoom}
+                                disabled={connectionStatus !== "open"}
+                            >
+                                End Room
+                            </button>
+
+                            <p className="endRoomWarning">
+                                Ending the room disconnects every listener immediately.
+                                Leaving keeps the room open for 30 seconds in case you reconnect.
+                            </p>
+                        </div>
+                    </div>
                 </section>
             )}
 
