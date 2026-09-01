@@ -51,6 +51,8 @@ export class RoomRegistry extends EventEmitter {
       currentInterim: null,
       sttSession: null,
       reconnectDeadline: null,
+      audioBytesReceived: 0,
+      audioChunksReceived: 0,
     };
     this.rooms.set(id, room);
     return room;

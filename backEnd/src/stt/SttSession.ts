@@ -1,6 +1,8 @@
-import speech from "@google-cloud/speech";
 import type { Duplex } from "node:stream";
-import { STT_CONFIG, STT_STREAM_RESTART_MS } from "./sttConfig.js";
+import { STT_STREAM_RESTART_MS } from "./sttConfig.js";
+import { env } from "../config/env.js";
+import { createMockSttStream } from "./mockSttStream.js";
+import { createGoogleSttStream } from "./googleSttStream.js";
 
 export interface SttResult {
   text: string;
@@ -17,14 +19,8 @@ export interface SttSessionOptions {
 /** Opens one Google streamingRecognize call. Overridable so tests can inject a fake stream. */
 export type StreamFactory = () => Duplex;
 
-let sharedClient: InstanceType<typeof speech.v1.SpeechClient> | undefined;
-
 function defaultStreamFactory(): Duplex {
-  sharedClient ??= new speech.v1.SpeechClient();
-  return sharedClient.streamingRecognize({
-    config: STT_CONFIG,
-    interimResults: true,
-  }) as unknown as Duplex;
+  return env.mockStt ? createMockSttStream() : createGoogleSttStream();
 }
 
 export class SttSession {
