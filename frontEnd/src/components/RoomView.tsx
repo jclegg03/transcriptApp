@@ -1,6 +1,8 @@
+import { useEffect } from "react";
 import type { RoomMembership } from "../types/RoomMembership";
 import type { EndReason, RoomLiveStatus } from "../hooks/useRoomSocket";
 import { useRoomSocket } from "../hooks/useRoomSocket";
+import { useMicStream } from "../hooks/useMicStream";
 
 interface RoomViewProps {
     membership: RoomMembership;
@@ -30,9 +32,25 @@ function describeRoomStatus(status: RoomLiveStatus, isSpeaker: boolean): string 
 }
 
 function RoomView({ membership, onLeave }: RoomViewProps) {
-    const { connectionStatus, roomStatus, listenerCount, transcript, sttStatus, endReason, fatalError, endRoom } =
-        useRoomSocket(membership);
+    const {
+        connectionStatus,
+        roomStatus,
+        listenerCount,
+        transcript,
+        sttStatus,
+        endReason,
+        fatalError,
+        endRoom,
+        sendAudioChunk,
+    } = useRoomSocket(membership);
     const isSpeaker = membership.role === "SPEAKER";
+
+    const { status: micStatus, error: micError, start: startMic, stop: stopMic } = useMicStream(sendAudioChunk);
+    const micEligible = connectionStatus === "open" && roomStatus === "live";
+
+    useEffect(() => {
+        if (!micEligible) stopMic();
+    }, [micEligible, stopMic]);
 
     if (endReason) {
         return (
@@ -58,14 +76,16 @@ function RoomView({ membership, onLeave }: RoomViewProps) {
 
             {isSpeaker ? (
                 <div>
-                    {/* Seam for microphone capture (out of scope for now): once
-                        connectionStatus === "open" && roomStatus === "live", start
-                        getUserMedia + PCM streaming here (binary ws.send frames to
-                        match room.sttSession.write(data) on the backend), and stop
-                        it on end-room / unmount. */}
                     {sttStatus?.state === "error" && (
                         <p role="alert">Transcription error: {sttStatus.message}</p>
                     )}
+                    {micError && <p role="alert">{micError.message}</p>}
+                    <button
+                        onClick={micStatus === "streaming" ? stopMic : startMic}
+                        disabled={!micEligible || micStatus === "starting"}
+                    >
+                        {micStatus === "streaming" ? "Stop Speaking" : "Start Speaking"}
+                    </button>
                     <button onClick={endRoom} disabled={connectionStatus !== "open"}>
                         End Room
                     </button>

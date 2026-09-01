@@ -22,6 +22,7 @@ export interface RoomSocketState {
   endReason: EndReason | null;
   fatalError: FatalError | null;
   endRoom: () => void;
+  sendAudioChunk: (chunk: ArrayBuffer) => void;
 }
 
 export function useRoomSocket(membership: RoomMembership): RoomSocketState {
@@ -162,6 +163,15 @@ export function useRoomSocket(membership: RoomMembership): RoomSocketState {
     ws.send(JSON.stringify(message));
   }, [role]);
 
+  const sendAudioChunk = useCallback(
+    (chunk: ArrayBuffer) => {
+      const ws = wsRef.current;
+      if (role !== "SPEAKER" || !ws || ws.readyState !== WebSocket.OPEN) return;
+      ws.send(chunk);
+    },
+    [role]
+  );
+
   if (missingSpeakerToken) {
     return {
       connectionStatus: "closed",
@@ -172,8 +182,19 @@ export function useRoomSocket(membership: RoomMembership): RoomSocketState {
       endReason: null,
       fatalError: { code: "missing-token", message: "Missing speaker credentials for this room." },
       endRoom,
+      sendAudioChunk,
     };
   }
 
-  return { connectionStatus, roomStatus, listenerCount, transcript, sttStatus, endReason, fatalError, endRoom };
+  return {
+    connectionStatus,
+    roomStatus,
+    listenerCount,
+    transcript,
+    sttStatus,
+    endReason,
+    fatalError,
+    endRoom,
+    sendAudioChunk,
+  };
 }

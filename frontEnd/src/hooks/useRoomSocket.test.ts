@@ -74,6 +74,15 @@ describe("useRoomSocket (listener)", () => {
         unmount();
         expect(ws.close).toHaveBeenCalled();
     });
+
+    it("does not send audio chunks for a listener", () => {
+        const { result } = renderHook(() => useRoomSocket(membership));
+        const ws = FakeWebSocket.latest();
+        act(() => ws.emitOpen());
+
+        act(() => result.current.sendAudioChunk(new ArrayBuffer(4)));
+        expect(ws.send).not.toHaveBeenCalled();
+    });
 });
 
 describe("useRoomSocket (speaker)", () => {
@@ -104,5 +113,19 @@ describe("useRoomSocket (speaker)", () => {
 
         act(() => ws.emitClose(1000));
         expect(result.current.endReason).toBe("speaker-ended");
+    });
+
+    it("sends audio chunks once open, and not before", () => {
+        sessionStorage.setItem("speakerToken:STUDY1", "secret-token");
+        const { result } = renderHook(() => useRoomSocket(membership));
+        const ws = FakeWebSocket.latest();
+
+        const chunk = new ArrayBuffer(4);
+        act(() => result.current.sendAudioChunk(chunk));
+        expect(ws.send).not.toHaveBeenCalled();
+
+        act(() => ws.emitOpen());
+        act(() => result.current.sendAudioChunk(chunk));
+        expect(ws.send).toHaveBeenCalledWith(chunk);
     });
 });
