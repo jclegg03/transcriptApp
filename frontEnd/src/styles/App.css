@@ -1,184 +1,502 @@
-.counter {
-  font-size: 16px;
-  padding: 5px 10px;
-  border-radius: 5px;
-  color: var(--accent);
-  background: var(--accent-bg);
-  border: 2px solid transparent;
-  transition: border-color 0.3s;
-  margin-bottom: 24px;
+/* =========================
+   Color & Design Variables
+   ========================= */
 
-  &:hover {
-    border-color: var(--accent-border);
-  }
-  &:focus-visible {
-    outline: 2px solid var(--accent);
-    outline-offset: 2px;
-  }
+:root {
+  --blue: #2563eb;
+  --blue-dark: #1d4ed8;
+  --blue-light: #eff6ff;
+  --blue-border: #bfdbfe;
+
+  --text: #1f2937;
+  --text-light: #6b7280;
+
+  --background: #f8fafc;
+  --white: #ffffff;
+
+  --gray-light: #f1f5f9;
+  --gray-border: #d1d5db;
+  --gray-dark: #4b5563;
+
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
 }
 
-.hero {
-  position: relative;
 
-  .base,
-  .framework,
-  .vite {
-    inset-inline: 0;
-    margin: 0 auto;
-  }
+/* =========================
+   General Page
+   ========================= */
 
-  .base {
-    width: 170px;
-    position: relative;
-    z-index: 0;
-  }
-
-  .framework,
-  .vite {
-    position: absolute;
-  }
-
-  .framework {
-    z-index: 1;
-    top: 34px;
-    height: 28px;
-    transform: perspective(2000px) rotateZ(300deg) rotateX(44deg) rotateY(39deg)
-      scale(1.4);
-  }
-
-  .vite {
-    z-index: 0;
-    top: 107px;
-    height: 26px;
-    width: auto;
-    transform: perspective(2000px) rotateZ(300deg) rotateX(40deg) rotateY(39deg)
-      scale(0.8);
-  }
+* {
+  box-sizing: border-box;
 }
 
-#center {
+body {
+  margin: 0;
+  background-color: var(--background);
+  color: var(--text);
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+
+/* =========================
+   Main App
+   ========================= */
+
+.app {
+  width: 100%;
+  max-width: 1200px;
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.app h1 {
+  margin: 0 0 2rem;
+  text-align: center;
+  font-size: 2.5rem;
+  color: var(--text);
+}
+
+
+/* =========================
+   Room Display
+   ========================= */
+
+.roomDisplayArea {
+  width: 100%;
+  margin: 0 auto 2rem;
+
+  display: grid;
+  grid-template-columns: repeat(3, minmax(280px, 1fr));
+  gap: 3rem;
+}
+
+
+/* =========================
+   Room Cards
+   ========================= */
+
+.roomCard {
   display: flex;
   flex-direction: column;
-  gap: 25px;
-  place-content: center;
-  place-items: center;
-  flex-grow: 1;
 
-  @media (max-width: 1024px) {
-    padding: 32px 20px 24px;
-    gap: 18px;
-  }
+  padding: 40px 44px 28px;
+
+  border: 1px solid var(--gray-border);
+  border-radius: 14px;
+
+  background-color: var(--white);
+
+  box-shadow: var(--shadow);
 }
 
-#next-steps {
-  display: flex;
-  border-top: 1px solid var(--border);
-  text-align: left;
+.roomCard h2 {
+  margin: 0;
+  min-height: 48px;
 
-  & > div {
-    flex: 1 1 0;
-    padding: 32px;
-    @media (max-width: 1024px) {
-      padding: 24px 20px;
-    }
-  }
+  font-size: 1.8rem;
+  line-height: 1.15;
 
-  .icon {
-    margin-bottom: 16px;
-    width: 22px;
-    height: 22px;
-  }
-
-  @media (max-width: 1024px) {
-    flex-direction: column;
-    text-align: center;
-  }
+  color: var(--text);
 }
 
-#docs {
-  border-right: 1px solid var(--border);
 
-  @media (max-width: 1024px) {
-    border-right: none;
-    border-bottom: 1px solid var(--border);
-  }
+/* =========================
+   Room Status
+   ========================= */
+
+.roomStatus {
+  margin: 34px 0 0;
+
+  font-size: 1.15rem;
 }
 
-#next-steps ul {
-  list-style: none;
-  padding: 0;
-  display: flex;
-  gap: 8px;
-  margin: 32px 0 0;
-
-  .logo {
-    height: 18px;
-  }
-
-  a {
-    color: var(--text-h);
-    font-size: 16px;
-    border-radius: 6px;
-    background: var(--social-bg);
-    display: flex;
-    padding: 6px 12px;
-    align-items: center;
-    gap: 8px;
-    text-decoration: none;
-    transition: box-shadow 0.3s;
-
-    &:hover {
-      box-shadow: var(--shadow);
-    }
-    .button-icon {
-      height: 18px;
-      width: 18px;
-    }
-  }
-
-  @media (max-width: 1024px) {
-    margin-top: 20px;
-    flex-wrap: wrap;
-    justify-content: center;
-
-    li {
-      flex: 1 1 calc(50% - 8px);
-    }
-
-    a {
-      width: 100%;
-      justify-content: center;
-      box-sizing: border-box;
-    }
-  }
+.roomStatus.active {
+  color: var(--blue);
 }
 
-#spacer {
-  height: 88px;
-  border-top: 1px solid var(--border);
-  @media (max-width: 1024px) {
-    height: 48px;
-  }
+.roomStatus.inactive {
+  color: var(--text-light);
 }
 
-.ticks {
-  position: relative;
+
+/* =========================
+   Room People
+   ========================= */
+
+.roomPeople {
+  margin: 26px 0 0;
+
+  font-size: 1.15rem;
+  color: var(--text);
+}
+
+
+/* =========================
+   Room Buttons
+   ========================= */
+
+.roomCard button {
   width: 100%;
+  min-height: 44px;
+  padding: 0.65rem 1rem;
 
-  &::before,
-  &::after {
-    content: '';
-    position: absolute;
-    top: -4.5px;
-    border: 5px solid transparent;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+  margin-top: 20px;
+}
+
+/* Join Room */
+.roomCard button:not(.deleteButton) {
+  background-color: var(--blue);
+  color: var(--white);
+  border: 2px solid var(--blue);
+}
+
+.roomCard button:not(.deleteButton):hover {
+  background-color: var(--blue-dark);
+  border-color: var(--blue-dark);
+}
+
+/* Delete Room */
+.roomCard .deleteButton {
+  background-color: var(--gray-light);
+  color: var(--gray-dark);
+  border: 2px solid var(--gray-border);
+}
+
+.roomCard .deleteButton:hover {
+  background-color: var(--blue-light);
+  border-color: var(--blue-border);
+  color: var(--blue-dark);
+}
+/* =========================
+   Create Room Button
+   ========================= */
+
+.app > button {
+  display: block;
+
+  width: 100%;
+  max-width: 300px;
+  min-height: 48px;
+
+  margin: 0 auto;
+  padding: 0.75rem 1.5rem;
+
+  background-color: var(--blue);
+  color: var(--white);
+
+  border: 2px solid var(--blue);
+  border-radius: 6px;
+
+  font-weight: 700;
+  font-size: 1rem;
+
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.app > button:hover {
+  background-color: var(--blue-dark);
+  border-color: var(--blue-dark);
+}
+
+
+/* =========================
+   Modal Overlay
+   ========================= */
+
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 1rem;
+
+  background-color: rgba(15, 23, 42, 0.55);
+
+  z-index: 1000;
+}
+
+
+/* =========================
+   Modal
+   ========================= */
+
+.modal {
+  width: 100%;
+  max-width: 560px;
+
+  padding: 2rem;
+
+  background-color: var(--white);
+
+  border: 1px solid var(--gray-border);
+  border-radius: 12px;
+
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+
+/* =========================
+   Modal Heading
+   ========================= */
+
+.modal h2 {
+  margin: 0 0 1.5rem;
+
+  font-size: 1.8rem;
+  color: var(--text);
+}
+
+
+/* =========================
+   Create Room Form
+   ========================= */
+
+.createRoomFormArea {
+  width: 100%;
+}
+
+.createRoomFormArea form {
+  display: flex;
+  flex-direction: column;
+
+  gap: 1rem;
+}
+
+.createRoomFormArea p {
+  margin: 0;
+
+  color: var(--text-light);
+  font-size: 1.05rem;
+}
+
+.createRoomFormArea label {
+  display: flex;
+  flex-direction: column;
+
+  gap: 0.5rem;
+
+  color: var(--text);
+
+  font-weight: 500;
+}
+
+.createRoomFormArea input {
+  width: 100%;
+  min-height: 48px;
+
+  padding: 0.75rem 1rem;
+
+  background-color: var(--white);
+
+  color: var(--text);
+
+  border: 2px solid var(--gray-border);
+  border-radius: 6px;
+}
+
+.createRoomFormArea input:focus {
+  outline: none;
+
+  border-color: var(--blue);
+
+  box-shadow: 0 0 0 3px var(--blue-light);
+}
+
+
+/* =========================
+   Modal Paragraph
+   ========================= */
+
+.modal > p {
+  margin: 0 0 1.5rem;
+
+  color: var(--text);
+
+  font-size: 1.1rem;
+  line-height: 1.5;
+}
+
+
+/* =========================
+   Modal Buttons
+   ========================= */
+
+.modal button {
+  width: 100%;
+  min-height: 46px;
+
+  padding: 0.7rem 1.25rem;
+
+  border-radius: 6px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+
+/* =========================
+   Primary Modal Button
+   ========================= */
+
+.modal .primaryButton {
+  background-color: var(--blue);
+  color: var(--white);
+
+  border: 2px solid var(--blue);
+}
+
+.modal .primaryButton:hover {
+  background-color: var(--blue-dark);
+  border-color: var(--blue-dark);
+}
+
+
+/* =========================
+   Secondary Modal Button
+   ========================= */
+
+.modal .secondaryButton {
+  background-color: var(--gray-light);
+  color: var(--text);
+
+  border: 2px solid var(--gray-border);
+}
+
+.modal .secondaryButton:hover {
+  background-color: var(--blue-light);
+  border-color: var(--blue-border);
+}
+
+
+/* =========================
+   Delete Room Modal Buttons
+   ========================= */
+
+/*
+   Your DeleteRoomModal currently puts the buttons
+   directly inside .modal, so give them some spacing.
+*/
+
+.modal .primaryButton + .secondaryButton {
+  margin-top: 0.75rem;
+}
+
+
+/* =========================
+   Error Message
+   ========================= */
+
+.app [role="alert"] {
+  margin: 0 auto 1.5rem;
+
+  padding: 0.75rem 1rem;
+
+  background-color: #fef2f2;
+  color: #991b1b;
+
+  border: 1px solid #fecaca;
+  border-radius: 6px;
+}
+
+
+/* =========================
+   Empty Room State
+   ========================= */
+
+.roomDisplayArea:empty::before {
+  content: "No rooms";
+
+  display: block;
+
+  padding: 3rem;
+
+  text-align: center;
+
+  color: var(--text-light);
+
+  background-color: var(--white);
+
+  border: 1px solid var(--gray-border);
+  border-radius: 12px;
+}
+
+
+/* =========================
+   Mobile
+   ========================= */
+
+@media (max-width: 900px) {
+  .roomDisplayArea {
+    grid-template-columns: repeat(2, minmax(280px, 1fr));
+  }
+}
+
+
+@media (max-width: 650px) {
+  .app {
+    padding: 1.25rem;
   }
 
-  &::before {
-    left: 0;
-    border-left-color: var(--border);
+  .app h1 {
+    font-size: 2rem;
   }
-  &::after {
-    right: 0;
-    border-right-color: var(--border);
+
+  .roomDisplayArea {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .roomCard {
+    min-height: 420px;
+    padding: 1.5rem;
+  }
+}
+
+
+@media (max-width: 500px) {
+  .app {
+    padding: 1rem;
+  }
+
+  .app h1 {
+    font-size: 1.75rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .modal {
+    padding: 1.5rem;
   }
 }

@@ -1,0 +1,9 @@
+{
+  "name": "transcriptapp",
+  "private": true,
+  "workspaces": [
+    "backEnd",
+    "frontEnd",
+    "shared"
+  ]
+}

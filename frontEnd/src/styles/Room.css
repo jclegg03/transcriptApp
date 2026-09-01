@@ -1,0 +1,222 @@
+/* =========================
+   Room View
+   ========================= */
+
+.roomView {
+  width: 100%;
+  max-width: 900px;
+  min-height: calc(100vh - 4rem);
+  margin: 0 auto;
+
+  display: flex;
+  flex-direction: column;
+}
+
+
+/* =========================
+   Room Header
+   ========================= */
+
+.roomHeader {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.roomHeader h1 {
+  margin: 0 0 0.5rem;
+  font-size: 2.5rem;
+  color: var(--text);
+}
+
+.roomCode {
+  margin: 0;
+  color: var(--text-light);
+  font-size: 1rem;
+}
+
+.roomCode strong {
+  color: var(--text);
+}
+
+
+/* =========================
+   Room Information
+   ========================= */
+
+.roomInfo {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.roomStatusBox {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+
+  padding: 1.25rem;
+
+  background-color: var(--white);
+  border: 1px solid var(--gray-border);
+  border-radius: 10px;
+
+  text-align: center;
+  box-shadow: var(--shadow);
+}
+
+.roomInfoLabel {
+  font-size: 0.85rem;
+  color: var(--text-light);
+}
+
+.roomInfoValue {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+
+/* =========================
+   Transcript
+   ========================= */
+
+.transcriptSection {
+  flex: 1;
+  margin-bottom: 2rem;
+}
+
+.sectionHeader {
+  margin-bottom: 0.75rem;
+}
+
+.sectionHeader h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: var(--text);
+}
+
+.transcriptArea {
+  min-height: 350px;
+  padding: 1.5rem;
+
+  background-color: var(--white);
+  border: 1px solid var(--gray-border);
+  border-radius: 12px;
+
+  box-shadow: var(--shadow);
+}
+
+.emptyTranscript {
+  margin: 0;
+
+  text-align: center;
+  color: var(--text-light);
+}
+
+
+/* =========================
+   Speaking Controls
+   ========================= */
+
+.speakingSection {
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+
+  background-color: var(--blue-light);
+  border: 1px solid var(--blue-border);
+  border-radius: 12px;
+
+  text-align: center;
+}
+
+.speakingSection h2 {
+  margin: 0 0 0.5rem;
+  color: var(--text);
+}
+
+.speakingSection p {
+  margin: 0 0 1rem;
+  color: var(--text-light);
+}
+
+.speakButton {
+  width: 220px;
+  min-height: 50px;
+
+  padding: 0.75rem 1.5rem;
+
+  background-color: var(--blue);
+  color: var(--white);
+
+  border: 2px solid var(--blue);
+  border-radius: 6px;
+
+  font-weight: 700;
+}
+
+.speakButton:hover {
+  background-color: var(--blue-dark);
+  border-color: var(--blue-dark);
+}
+
+
+/* =========================
+   Leave Room
+   ========================= */
+
+.leaveRoomArea {
+  margin-top: auto;
+  padding-top: 1rem;
+
+  text-align: center;
+}
+
+.leaveRoomButton {
+  width: 220px;
+  min-height: 46px;
+
+  padding: 0.7rem 1.25rem;
+
+  background-color: var(--gray-light);
+  color: var(--gray-dark);
+
+  border: 2px solid var(--gray-border);
+  border-radius: 6px;
+
+  font-weight: 700;
+}
+
+.leaveRoomButton:hover {
+  background-color: var(--blue-light);
+  border-color: var(--blue-border);
+  color: var(--blue-dark);
+}
+
+
+/* =========================
+   Mobile
+   ========================= */
+
+@media (max-width: 700px) {
+  .roomView {
+    min-height: calc(100vh - 2rem);
+  }
+
+  .roomHeader h1 {
+    font-size: 2rem;
+  }
+
+  .roomInfo {
+    grid-template-columns: 1fr;
+  }
+
+  .transcriptArea {
+    min-height: 300px;
+  }
+
+  .speakButton,
+  .leaveRoomButton {
+    width: 100%;
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "name": "shared",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./api/rooms": "./api/rooms.ts"
+  }
+}

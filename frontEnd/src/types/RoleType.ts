@@ -1,0 +1,1 @@
+export type RoleType = "SPEAKER" | "LISTENER";

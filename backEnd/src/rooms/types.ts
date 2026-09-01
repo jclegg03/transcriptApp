@@ -24,6 +24,7 @@ export interface ListenerConnection {
 
 export interface Room {
   id: string;
+  name: string;
   speakerToken: string;
   status: RoomStatus;
   createdAt: number;
